@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PayDTO implements Serializable {
+
     private Integer id;
     //支付流水号
     private String payNo;
