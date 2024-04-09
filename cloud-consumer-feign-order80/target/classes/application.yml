@@ -3,12 +3,39 @@ server:
 
 spring:
   application:
-    name: cloud-consumer-order
-  ####Spring Cloud Consul for Service Discovery
+    name: cloud-consumer-openfeign-order
   cloud:
     consul:
       host: localhost
       port: 8500
       discovery:
-        prefer-ip-address: true #优先使用服务ip进行注册,不然就是默认服务名
+        prefer-ip-address: true #优先使用服务ip进行注册
         service-name: ${spring.application.name}
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 2000
+            readTimeout: 2000
+      #          cloud-payment-service:
+      #            #连接超时时间
+      #            connectTimeout: 4000
+      #            #读取超时时间
+      #            readTimeout: 4000
+      httpclient:
+        hc5:
+          enabled: true
+      compression:
+        request:
+          enabled: true
+          min-request-size: 2048
+          mime-types: text/xml,application/xml,application/json
+        response:
+          enabled: true
+logging:
+  level:
+    com:
+      atguigu:
+        cloud:
+          apis:
+            PayFeignApi: debug
