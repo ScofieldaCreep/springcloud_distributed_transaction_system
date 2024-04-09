@@ -4,6 +4,7 @@ server:
 spring:
   application:
     name: cloud-consumer-openfeign-order
+  ####Spring Cloud Consul for Service Discovery
   cloud:
     consul:
       host: localhost
@@ -15,16 +16,16 @@ spring:
       client:
         config:
           default:
-            connectTimeout: 2000
-            readTimeout: 2000
-      #          cloud-payment-service:
-      #            #连接超时时间
-      #            connectTimeout: 4000
-      #            #读取超时时间
-      #            readTimeout: 4000
+            #cloud-payment-service:
+            #连接超时时间，为避免演示出错，讲解完本次内容后设置为20秒
+            connectTimeout: 20000
+            #读取超时时间，为避免演示出错，讲解完本次内容后设置为20秒
+            readTimeout: 20000
+            #开启httpclient5
       httpclient:
         hc5:
           enabled: true
+          #开启压缩特性
       compression:
         request:
           enabled: true
@@ -32,6 +33,14 @@ spring:
           mime-types: text/xml,application/xml,application/json
         response:
           enabled: true
+      #开启circuitbreaker和分组激活
+      circuitbreaker:
+        enabled: true
+        group:
+          enabled: true #没开分组永远不用分组的配置。精确优先、分组次之(开了分组)、默认最后
+
+
+# feign日志以什么级别监控哪个接口
 logging:
   level:
     com:
@@ -39,3 +48,19 @@ logging:
         cloud:
           apis:
             PayFeignApi: debug
+
+####resilience4j bulkhead 的例子
+resilience4j:
+  bulkhead:
+    configs:
+      default:
+        maxConcurrentCalls: 2 # 隔离允许并发线程执行的最大数量
+        maxWaitDuration: 1s # 当达到并发调用数量时，新的线程的阻塞时间，我只愿意等待1秒，过时不候进舱壁兜底fallback
+    instances:
+      cloud-payment-service:
+        baseConfig: default
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 20s
+

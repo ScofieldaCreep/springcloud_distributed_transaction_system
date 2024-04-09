@@ -21,8 +21,8 @@ public class FeignConfig {
     @Bean
     public Retryer myRetryer() {
         // return Retryer.NEVER_RETRY; // This line is commented out. If uncommented, Feign would not retry failed requests.
-        return new Retryer.Default(100, 1, 3);
-//        return Retryer.NEVER_RETRY;
+//        return new Retryer.Default(100, 1, 3);
+        return Retryer.NEVER_RETRY;
     }
 
     @Bean
