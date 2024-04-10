@@ -43,4 +43,9 @@ public interface PayFeignApi {
     public String myBulkhead(@PathVariable("id") Integer id);
 
 
+    @GetMapping("/pay/ratelimit/{id}")
+    public String myRatelimit(@PathVariable("id") Integer id);
+
+    @GetMapping("pay/micrometer/{id}")
+    public String myMicrometer(@PathVariable("id") Integer id);
 }

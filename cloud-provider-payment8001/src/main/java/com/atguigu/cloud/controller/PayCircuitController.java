@@ -35,4 +35,9 @@ public class PayCircuitController {
         }
         return "Hello, circuit! inputId:  " + id + " \t " + IdUtil.simpleUUID();
     }
+
+    @GetMapping("/pay/ratelimit/{id}")
+    public String myRatelimit(@PathVariable("id") Integer id) {
+        return "Hello, my Ratelimit: " + id + "\t" + IdUtil.simpleUUID();
+    }
 }
